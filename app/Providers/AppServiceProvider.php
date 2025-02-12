@@ -6,7 +6,13 @@ use App\Repositories\Interfaces\EventRepositoryInterface;
 use App\Repositories\Eloquent\EloquentEventRepository;
 use App\Repositories\Interfaces\BookingRepositoryInterface;
 use App\Repositories\Eloquent\EloquentBookingRepository;
-use Illuminate\Support\ServiceProvider;
+//use Illuminate\Support\ServiceProvider;
+
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        
     }
 }

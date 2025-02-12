@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Repositories\Interfaces\EventRepositoryInterface;
+use App\Http\Resources\EventResource;
 
 class EventController extends Controller
 {
