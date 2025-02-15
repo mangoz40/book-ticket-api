@@ -6,4 +6,6 @@ use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\BookingController;
 
 Route::get('/events', [EventController::class, 'index']); // List all events
-Route::get('/events/{event}', [EventController::class, 'show']); // Get a specific event (if needed)
+Route::get('/events/{event}', [EventController::class, 'show']); // Get a specific event (if needed and yes its needed)
+Route::post('/book-event', [BookingController::class, 'store']);
+

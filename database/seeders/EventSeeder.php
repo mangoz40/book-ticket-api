@@ -13,6 +13,32 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
+        Event::factory()->create([
+            'title' => 'Malawi AI Conference 2024',
+            'description' => 'The premier tech event of the year!',
+            'date' => '2025-11-15 09:00:00',
+            'location' => 'Online',
+            'available_tickets' => 500,
+            'price' => 20000.00,
+        ]);
+
+        Event::factory()->create([
+            'title' => 'Weekend Workshop: API Development',
+            'date' => '2025-07-20 10:00:00',
+            'location' => 'Tech Hub, City Center',
+            'available_tickets' => 20,
+            'price' => 30000.99,
+        ]);
+
+        Event::factory()->create([
+            'title' => 'Malawi Industrialization Summit',
+            'description' => 'Discussion on how Malawi can industrialize the didgital age',
+            'date' => '2025-07-20 10:00:00',
+            'location' => 'Tech Hub, City Center',
+            'available_tickets' => 20,
+            'price' => 30000.99,
+        ]);
+
         // Create some default events (using the factory's default definitions)
         Event::factory()->count(10)->create();
 
@@ -30,29 +56,8 @@ class EventSeeder extends Seeder
         // Events with a specific number of tickets
         Event::factory()->count(7)->withTickets(30)->create();
 
-        // You can also combine states:
         // Free events without descriptions
         Event::factory()->count(2)->free()->withoutDescription()->create();
 
-        // And even override specific attributes when creating events:
-        Event::factory()->create([
-            'title' => 'Laravel Conference 2024',
-            'description' => 'The premier Laravel event of the year!',
-            'date' => '2024-11-15 09:00:00',
-            'location' => 'Online',
-            'available_tickets' => 500,
-            'price' => 99.00,
-        ]);
-
-        Event::factory()->create([
-            'title' => 'Weekend Workshop: API Development',
-            'date' => '2024-07-20 10:00:00',
-            'location' => 'Tech Hub, City Center',
-            'available_tickets' => 20,
-            'price' => 49.99,
-        ]);
-
-        // You can continue to customize and create different sets of events
-        // as needed for your application's initial data.
     }
 }

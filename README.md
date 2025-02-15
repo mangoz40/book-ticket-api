@@ -1,66 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Event Ticket Booking App - Laravel Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
 
-## About Laravel
+This is the Laravel backend API for the Event Ticket Booking App. It provides a RESTful API to be consumed by the Kotlin Android frontend application.  This API handles:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+  * **Event Management:**  Provides endpoints to browse available events, retrieve event details.
+  * **Booking Management:** Handles ticket booking requests, stores booking information, generates QR codes for tickets.
+  * **Data Storage:**  Utilizes a MySQL database to persist event and booking data.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Important Note:** This backend is designed to be used in conjunction with the Kotlin Android frontend application.  It is built as a dedicated API server and does not include a frontend interface itself.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+  * **Backend Framework:** Laravel (PHP)
+  * **Programming Language:** PHP
+  * **Database:** MySQL
+  * **API Style:** RESTful API
+  * **QR Code Generation:**  SimpleSoftwareIO/Simple-QRcode Laravel package
+  * **Dependency Management:** Composer
+  * **Architecture Pattern:** Repository Pattern
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Architecture
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+This Laravel backend API employs a layered architecture, potentially including the Repository Pattern for data access.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+  * **Controllers:**  Handle incoming HTTP requests, validate input, orchestrate business logic by interacting with services or repositories, and return API responses (JSON).
+  * **Models:** Represent database tables and provide an interface for interacting with data using Eloquent ORM.
+  * **Migrations:** Define database schema and allow for version control of database changes.
+  * **API Resources:** Transform Eloquent models into structured JSON responses for the API.
+  * **Repositories:** Abstract data access logic away from controllers. Provide an interface for data operations, making controllers cleaner and more testable.  
+  * **Routes (API Routes):** Define the API endpoints and map them to controller actions.
 
-## Laravel Sponsors
+## Setup Instructions
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Before you begin, ensure you have the following installed:
 
-### Premium Partners
+  * **PHP:**  Version 8.3
+  * **Composer:**  Dependency Manager for PHP 
+  * **MySQL Server:**  Install and run a MySQL server instance.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+**Steps to set up and run the backend API:**
 
-## Contributing
+1.  **Clone the Repository:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```bash
+    git clone https://github.com/mangoz40/book-ticket-api.git
+    cd book-ticket-api 
+    ```
+2.  **Install Composer Dependencies:**
 
-## Code of Conduct
+    ```bash
+    composer install
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3.  **Configure Environment Variables (.env file):**
 
-## Security Vulnerabilities
+      * Copy `.env.example` to `.env`:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+        \`\`\`bash
+        cp .env.example .env
+        \`\`\`
 
-## License
+      * Open the `.env` file and configure the following settings:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+          * **`APP_NAME`**:  Set the application name
+          * **`APP_URL`**: Set the base URL of your API (e.g., `http://localhost:8000`).
+          * **`DB_CONNECTION`**: Set to `mysql`.
+          * **`DB_HOST`**:  MySQL host (e.g., `127.0.0.1` or `localhost`).
+          * **`DB_PORT`**:  MySQL port (default `3306`).
+          * **`DB_DATABASE`**:  Database name (e.g., `book_tickets`). **Create this database in your MySQL server.**
+          * **`DB_USERNAME`**: MySQL username.
+          * **`DB_PASSWORD`**: MySQL password.
+
+4.  **Generate Application Key:**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+5.  **Run Database Migrations:**
+
+    ```bash
+    php artisan migrate
+    ```
+
+    This will create the necessary database tables (`events`, `bookings`, etc.) based on the migrations provided.
+6.  **Run Database Seeder:**
+
+    ```bash
+    php artisan db:seed
+    ```
+
+    This will create the necessary database dummy content.
+7.  **Start the Laravel Development Server:**
+
+    ```bash
+    php artisan serve --host=192.168.137.1 --port=8000  
+    ```
+
+    This will start the development server, usually accessible at specified URL.
+
+## API Endpoints
+
+The following API endpoints are available:
+
+  * **`GET /api/events`**:
+
+      * Description: Retrieve a list of all events.
+      * Response: JSON array of `Event` resources.
+
+  * **`GET /api/events/{event}`**:
+
+      * Description: Retrieve details of a specific event.
+      * Parameters: `{event}`: Event ID.
+      * Response: JSON `Event` resource.
+
+  * **`POST /api/book-event`**:
+
+      * Description: Create a new booking for an event.
+      * Request Body (JSON):
+        ```json
+        {
+          "event_id": integer,  // ID of the event to book
+          "customer_name": string, // Customer's name
+          "customer_email": string, // Customer's email
+          "quantity": integer   // Number of tickets to book
+        }
+        ```
+      * Response: JSON `Booking` resource upon successful booking, or error response if booking fails (e.g., validation errors, insufficient tickets).
+
+  * **`GET /api/bookings/{booking}`**: For now we are using the /api/events/{event} as they are similar
+
+      * Description: Retrieve details of a specific booking.
+      * Parameters: `{booking}`: Event ID.
+
+## Testing the API
+
+You can use tools like **Postman** or ``` curl ``` to test the API endpoints.
+
+**Example using curl to get a list of events:** Assuming ur running on localhost
+
+```bash
+curl http://localhost:8000/api/events
+```
+
+**Example using curl to create a booking (replace with your actual data):**
+
+```bash
+curl -X POST \
+  http://localhost:8000/api/bookings \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "event_id": 1,
+    "customer_name": "John Doe",
+    "customer_email": "[email address removed]",
+    "quantity": 2
+  }'
+```
+
+**QR Codes:** After successfully creating a booking, the API response will include a `qr_code_url`.
+ * **Important Note:** For the QR code its just a combination of unique UUID string and Event ID which is returned to the frontEnd that is where the QR code image is generated.
+
+## Future Enhancements (Potential Contributions)
+
+  * User Authentication and Authorization: Implement user registration, login, and API authentication (e.g., using Laravel Sanctum) to secure booking data and potentially manage user profiles.
+  * More Robust Validation: Enhance request validation rules (e.g., quantity limits, data format validation).
+  * Payment Gateway Integration: Integrate a real or dummy payment gateway to handle actual ticket purchases.
+  * Admin Panel: Develop an admin panel (potentially using Laravel Filament or similar) to manage events, view bookings, and generate reports.
+  * Testing: Write comprehensive unit tests and integration tests for API endpoints and backend logic.
+
+## Author
+
+Mangoz40
+
+
+**All the Best\!!! **

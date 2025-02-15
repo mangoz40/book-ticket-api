@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Event;
+use App\Repositories\Interfaces\BookingRepositoryInterface;
 use SimpleSoftwareIO\QrCode\Facades\QrCode; 
 use Illuminate\Http\Request;
+use App\Http\Resources\BookingResource;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -22,33 +26,42 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'event_id' => 'required|exists:events,id',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email',
-            'quantity' => 'required|integer|min:1',
+            'eventId' => 'required',
+            'fullName' => 'required|string|max:255',
+            'email' => 'required|email',
+            'numberOfTickets' => 'required|integer|min:1',
         ]);
 
-        $event = Event::findOrFail($request->event_id);
+        $event = Event::findOrFail($request->eventId);
 
-        if ($event->available_tickets < $request->quantity) {
+        if ($event->available_tickets < $request->numberOfTickets && false) { //dont check for now
             return response()->json(['message' => 'Not enough tickets available'], 400);
         }
 
-         // Generate QR code (install package later)
-         $qrCodeData = Str::uuid(); // Generate a unique identifier for the QR code
-         $qrCodePath = 'qrcodes/booking-' . $qrCodeData . '.svg'; // Path to store QR code
-         QrCode::size(200)->format('svg')->generate($qrCodeData, public_path($qrCodePath));
+        $uniqueId = Str::uuid();
+
+        /*$qrCode = QrCode::format('svg')  HOPEFULLY this might be implemented to generate code in backend
+                ->size(200)  // Size in pixels
+                ->errorCorrection('H')  // High error correction level
+                ->generate($uniqueId);
+            
+            // Convert SVG to base64 for easy transmission
+            $base64QrCode = base64_encode($qrCode);*/
 
        
 
-         $bookingData = $request->only(['event_id', 'customer_name', 'customer_email', 'quantity']);
-         $bookingData['qr_code'] = $qrCodePath;
+         $bookingData = $request->only(['eventId', 'fullName', 'email', 'numberOfTickets']);
 
-         $booking = $this->bookingRepository->create($bookingData); // Use booking repository to create
+         //short cut, time is out
+         $bookingData2 = ["event_id" => $bookingData["eventId"], "customer_name" => $bookingData["fullName"], "customer_email" => $bookingData["email"], "quantity" => $bookingData["numberOfTickets"]];
+         $bookingData2['qr_code'] = $uniqueId . '-' . $bookingData2['event_id'];
 
-         $event->decrement('available_tickets', $request->quantity);
+         $booking = $this->bookingRepository->create($bookingData2); // Use booking repository to create
 
-         return new BookingResource($booking);
+         $event->decrement('available_tickets', $request->numberOfTickets);
+
+         //TODOOO return new BookingResource($booking);
+         return response()->json(['qrcode' => $bookingData2['qr_code']]);
     }
 
     /**
@@ -79,4 +92,5 @@ class BookingController extends Controller
     {
         //
     }
+    
 }

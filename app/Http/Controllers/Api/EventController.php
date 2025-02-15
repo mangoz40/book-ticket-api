@@ -23,7 +23,8 @@ class EventController extends Controller
         public function index()
         {
             $events = $this->eventRepository->all(); // Use repository
-            return EventResource::collection($events);
+            return EventResource::collection($events)->collection;
+
         }
 
     /**
@@ -47,7 +48,9 @@ class EventController extends Controller
         if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
         }
-        return new EventResource($event);
+
+        //for later $data = new EventResource($event);
+        return $event;
     }
     /**
      * Update the specified resource in storage.

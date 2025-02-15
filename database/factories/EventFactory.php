@@ -24,13 +24,14 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'location' => $this->faker->city,
-            'available_tickets' => $this->faker->numberBetween(0, 100), // Assuming available_tickets is used as a number
-            'price' => $this->faker->randomFloat(2, 0, 100),
+            'title' => fake()->sentence(2), // More natural-sounding titles
+            'description' => fake()->paragraph(3), // More natural paragraphs
+            'date' => fake()->dateTimeBetween('now', '+6 months'), // More realistic timeframe
+            'location' => fake()->city(), // More specific location
+            'available_tickets' => fake()->numberBetween(50, 500), // More realistic ticket range
+            'price' => fake()->randomFloat(2, 15000, 70000), // More realistic price range
         ];
     }
 
